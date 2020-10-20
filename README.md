@@ -1,24 +1,58 @@
 Architecture for this functionality
 
 This is an example to demonstrate sample REACT application calling AWS API gateway REST API to add data to DynamoDB (AWS NoSQL DB)
+![images](/images/AWSLambdaNodeDynamoExampleArch.jpg)
+
 ## Step1: 
 Clone the repo 
 `$git clone https://github.com/jackieb108/AWSLambdaReactDynamoExample.git`
 
+
 ## Step2:
 Create DynamodDB with 'date' as the key
-![images](/images/DynamoDBcreatetable)
-![images](/images/DynamoDBcreatetable2)
+![images](/images/DynamoDBcreatetable.jpg)
+![images](/images/DynamoDBcreatetable2.jpg)
 
 
 ## Step3:
 Create 'collegeAppTuition' Lambda function on AWS. Copy other/awslambdaindex.js to index.js in Lambda function
-![images](/images/LambdaCreateFunction)
-![images](/images/LambdaCreateFunction2)
+![images](/images/LambdaCreateFunction.jpg)
+![images](/images/LambdaCreateFunction2.jpg)
 
 
 ## Step4:
-Create 'collegetuitionAppFunction' Lambda function on AWS.
+Create API Gateway on AWS - collegetuitionAppFunction-API
+![images](/images/APIGateway1.jpg)
+![images](/images/APIGateway2.jpg)
+
+
+After all resources are deployed on AWS, update src/Form.js to point to coorect URL location 
+
+## Step5:
+Update file src/Form.js' to point to correct lambda function
+async handleSubmit(event) {
+    event.preventDefault();
+    const { name, message } = this.state;
+    await axios.post(
+      `'https://[REPLACE].amazonaws.com/default/collegetuitionAppFunction'`,
+      { collegedata: `${name}, ${message}` }
+    );
+  }
+
+
+Start teh webapp
+## Step6:
+ `npm start`
+
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+## Step6:
+Add some relevant data in the web application and hit 'Add' button
+![images](/images/REACTapp1.jpg)
+
+Review the DynamoDB items and you should see the data entered via the webapp
+![images](/images/DynamoDBResults.jpg)
 
 
 
